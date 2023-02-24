@@ -1,0 +1,49 @@
+<header>
+    <div id="left">
+        <h1>CodingDojo Wall</h1>
+    </div>
+
+    <div id="right">
+        <p>Welcome <%= session[:first_name] %></p>
+    </div>
+</header>
+
+<hr>
+
+<h2>Post a message</h2>
+<form action="/post_message" id="post_message" method="POST">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" >
+    <input type="hidden" name="user_id" value="<%= session[:user_id] %>" >
+    <textarea class="message-textarea" name="message" placeholder="Post a message"></textarea>
+    <input type="submit" value="Post a message">
+</form>
+
+<div id="wrapper">
+    <%= render partial: "message/partials/message_content", :formats => [:html], :layout => false, locals: {messages: @messages[:result]} %>
+</div>
+
+<div class="textcomment">
+    <form action="/post_comment" id="post_comment" method="POST">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" >
+        <input type="hidden" class="comment_user_id_add" name="user_id" value="" >
+        <input type="hidden" class="comment_message_id_add" name="message_id" value="" >
+        <textarea class="comment_add" name="comment" placeholder="Post a comment" hidden></textarea>
+        <input type="submit" value="Post a comment" hidden>
+    </form>
+</div>
+
+<form action="/delete_message" id="delete_message" method="POST">
+    <input type="hidden" name="_method" value="delete" >
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" >
+    <input type="hidden" class="message_id_del" name="message_id" value="" >
+    <input type="hidden" class="message_user_id_del" name="message_user_id" value="" >
+    <input type="submit" value="Delete a message" hidden>
+</form>
+
+<form action="/delete_comment" id="delete_comment" method="POST">
+    <input type="hidden" name="_method" value="delete" >
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" >
+    <input type="hidden" class="comment_id_del" name="comment_id" value="" >
+    <input type="hidden" class="comment_user_id_del" name="comment_user_id" value="" >
+    <input type="submit" value="Delete a comment" hidden>
+</form>

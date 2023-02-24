@@ -1,0 +1,16 @@
+<%  if !comments.nil?
+        comments.each do |comment| 
+            comment["created_at"] = DateTime.parse(comment["created_at"])
+            %>
+
+            <div class="comment">
+                <h3><%= session[:first_name] %> <%= session[:last_name] %> - <%= comment["created_at"].strftime('%m/%d/%Y %I:%M%p') %></h3>
+                <p><%= comment["comment"] %></p>
+
+                <% if comment["user_id"] === session[:user_id] %>
+                    <button class="delete_comment_btn" data-comment_id="<%= comment["comment_id"] %>" data-comment_user_id="<%= comment["user_id"] %>" >Delete Comment</button>
+                <% end %>
+            </div>
+
+        <% end%>
+<%  end %>

@@ -1,0 +1,31 @@
+<%  if messages.length > 0
+        messages.each do |message| %>
+            
+            <div class="message-comment-wrapper">
+                <div id="message-comment_<%= message["message_id"] %>" >
+                    <div class="message">
+                        <h3><%= session[:first_name] %> <%= session[:last_name] %> - <%= message["created_at"].strftime('%m/%d/%Y %I:%M%p') %></h3>
+                        <p><%= message["message"] %></p>
+
+                        <% if message["user_id"] === session[:user_id] %>
+                            <button class="delete_message_btn" data-message_id = "<%= message["message_id"] %>" data-message_user_id = "<%= message["user_id"] %>" >Delete Message</button>
+                        <% end %>
+                    </div>
+
+                    <% if message["comment"].present? %>
+                        <%= render partial: "/comment/partials/comment", :format => [:html], :layout => false, locals: {comments: JSON.parse(message["comment"]) } %>
+                    <% end %>
+                </div>
+
+                <% if !message["message_id"].nil? %>
+
+                    <br>
+                    <div class="textcomment">
+                        <textarea id="comment-content_<%= message["message_id"] %>" name="comment" placeholder="Post a comment" ></textarea>
+                        <button class="comment_post_btn" data-user_id="<%= session[:user_id] %>" data-message_id="<%= message["message_id"] %>" >Post a comment</button>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+<%  end %>
+         
